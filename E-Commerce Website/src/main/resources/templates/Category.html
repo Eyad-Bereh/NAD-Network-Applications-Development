@@ -1,0 +1,25 @@
+<h1 class="text-center mt-5 mb-5">Showing products for category (<span th:text="${categoryName}"></span>)</h1>
+<div class="table-responsive">
+    <table class="table" style="border-collapse: separate;border-spacing:0 80px;">
+        <tr th:each="product : ${products}">
+            <td>
+                <img th:src="${'/assets/' + product.image}" class="center" style="width:500px;height:500px;"/>
+            </td>
+            <td>
+                <h3 th:text="${product.name}" class="text-center mt-5"></h3>
+                <div class="text-center">
+                    <a th:href="${'/products/' + product.name}"> View details &gt;&gt;</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>

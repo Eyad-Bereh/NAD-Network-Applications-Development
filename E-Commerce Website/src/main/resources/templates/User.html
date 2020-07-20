@@ -1,0 +1,53 @@
+<h1 class="text-center mt-5 mb-5">Profile of user (<span th:text="${username}"></span>)</h1>
+
+<h2 class="text-center">General info</h2>
+<div class="row">
+    <div class="col-md-3 col-lg-3"></div>
+    <div class="col-md-6 col-lg-6">
+        <div class="table-responsive mt-5 mb-5 mr-auto">
+            <table class="table">
+                <tr>
+                    <td>Username:</td>
+                    <td th:text="${username}"></td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td th:text="${userEmail}"></td>
+                </tr>
+                <tr>
+                    <td>Balance:</td>
+                    <td th:text="${userBalance + '$'}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-3 col-lg-3"></div>
+</div>
+
+<h2 class="text-center">Purchases history</h2>
+<div class="row">
+    <div class="col-md-2 col-lg-2"></div>
+    <div class="col-md-8 col-lg-8">
+        <div class="table-responsive mt-5 mb-5 mr-auto">
+            <table class="table">
+                <tr>
+                    <th>Product name</th>
+                    <th>Quantity</th>
+                    <th>Unit price</th>
+                    <th>Total price</th>
+                    <th>Datetime</th>
+                    <th>Session ID</th>
+                </tr>
+                <tr th:each="purchase : ${purchases}">
+                    <td th:text="${purchase.productName}"></td>
+                    <td th:text="${purchase.productQuantity}"></td>
+                    <td th:text="${purchase.productUnitPrice + ' $'}"></td>
+                    <td th:text="${purchase.productTotalPrice + ' $'}"></td>
+                    <td th:text="${purchase.productPurchaseDatetime}"></td>
+                    <td th:text="${purchase.sessionId}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-2 col-lg-2"></div>
+</div>

@@ -1,0 +1,66 @@
+<br/>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4" style="border: 5px solid black; border-radius: 10px;">
+        <form action="/login" method="POST" id="login-form">
+            <br/>
+            <p>Enter your E-mail: <input type="text" id="email" name="email" class="form-control"/></p>
+            <p>Enter your password: <input type="password" id="password" name="password" class="form-control"/></p>
+            <button class="btn btn-block btn-info">Login <span class="fas fa-sign-in-alt"></span></button>
+            <br/>
+        </form>
+        <div id="login-message" class="alert"></div>
+    </div>
+    <div class="col-4"></div>
+</div>
+<br/>
+
+<script>
+    $(function() {
+        $("#login-form").on("submit", function(e) {
+            e.preventDefault();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            $.ajax({
+                url : "/login",
+                method : "POST",
+                data : {
+                   email : email,
+                   password : password
+                },
+                beforeSend : function(xhr, settings) {
+                    $("#login-message")
+                    .removeClass("alert-success alert-danger")
+                    .html(null)
+                    .slideUp(0);
+                },
+                success : function(data, status, xhr) {
+                    if (data.successful) {
+                        $("#login-message")
+                        .addClass("alert-success")
+                        .removeClass("alert-danger")
+                        .html("You're successfully loggedin.<br/>Please wait while you're being redirected.")
+                        .slideDown(1000);
+
+                        setTimeout(function() {
+                            window.location.href = "/products";
+                        }, 3000);
+                    }
+                    else {
+                        $("#login-message")
+                        .addClass("alert-danger")
+                        .removeClass("alert-success")
+                        .html("Wrong username/password.<br/>Please double check your credentials and try again.")
+                        .slideDown(1000);
+                    }
+                },
+                error : function(xhr, status, err) {
+                    alert("Failed:" + err);
+                },
+                complete : function(xhr, status) {
+                    
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,123 @@
+<h1 class="text-center mt-5 mb-5">Check the items you want to purchase</h1>
+<div class="row">
+    <div class="col-md-2 col-lg-2"></div>
+    <div class="col-md-8 col-lg-8">
+        <h2 th:if="${!itemsExist}" class="text-center mb-5">You haven't added any products yet to your cart ...</h2>
+        <div th:if="${itemsExist}" class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Product name</th>
+                    <th>Quantity</th>
+                    <th>Unit price</th>
+                    <th>Total price</th>
+                </tr>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.productQuantity}"></td>
+                    <td th:text="${item.productUnitPrice}"></td>
+                    <td th:text="${item.productTotalPrice}"></td>
+                    <td>
+                        <button class="btn btn-block btn-danger cart-item-remove"
+                                th:data-product-id="${item.productId}">Remove <span class="fas fa-times"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <button class="btn btn-block btn-success" id="purchase-button">Purchase <span class="fa fa-check"></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-2 col-lg-2"></div>
+</div>
+
+<div th:if="${loggedIn}" class="modal fade" id="message-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color: #272822 !important; color:#fff;">
+            <h4 class="modal-title">Purchase message</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+        
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="message" class="alert"></div>
+            </div>
+        
+        <!-- Modal footer -->
+            <div class="modal-footer" style="background-color: #272822 !important;">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script th:if="${loggedIn}">
+    $(function() {
+        $(document).on("click", ".cart-item-remove", function() {
+            var product_id = Number($(this).attr("data-product-id"));
+            $.ajax({
+                url : "/cart/remove",
+                method : "POST",
+                data : {
+                    product_id : product_id
+                },
+                success : function(data, status, xhr) {
+                    console.log(data)
+                    if (data.isOkay) {
+                        $("#message")
+                        .removeClass("alert-danger")
+                        .addClass("alert-success")
+                        .html("The product has been removed successfully");
+                        $("#message-modal").on("hidden.bs.modal", function() {
+                            window.location.reload();
+                        });
+                    }
+                    else {
+                        $("#message")
+                        .removeClass("alert-success")
+                        .addClass("alert-danger")
+                        .html(data.error);
+                    }
+                    $("#message-modal").modal();
+                },
+                error : function(xhr, status, err) {
+                    console.log(err);
+                },
+                complete : function(xhr, status) {}
+            });
+        });
+
+        $("#purchase-button").on("click", function(e) {
+            $.ajax({
+                url : "/purchase",
+                method : "POST",
+                success : function(data, status, xhr) {
+                    if (data.isOkay) {
+                        $("#message")
+                        .addClass("alert-success")
+                        .removeClass("alert-danger")
+                        .html("The purchase has been completed successfully");
+                        $("#message-modal").on("hidden.bs.modal", function() {
+                            window.location.reload();
+                        });
+                    }
+                    else {
+                        $("#message")
+                        .addClass("alert-danger")
+                        .removeClass("alert-success")
+                        .html(data.error);
+                    }
+                    $("#message-modal").modal();
+                },
+                error : function(xhr, status, err) {
+                    if (err) throw err;
+                }
+            });
+        });
+    });
+</script>

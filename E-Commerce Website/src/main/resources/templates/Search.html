@@ -1,0 +1,94 @@
+<h1 class="text-center">Search form</h1>
+<br/>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8" style="border: 5px solid black; border-radius: 10px;">
+        <form action="/search" method="POST" id="search-form">
+            <br/>
+            <p>Enter part of product name (or leave empty to get all products): <input type="text" id="name" name="name" class="form-control text-center"/></p>
+            <p>Choose categories:</p>
+            <button th:each="category : ${categories}"
+                    th:data-category-id="${category.id}"
+                    class="btn btn-dark mb-1 mt-1 mr-1 ml-1 category-button"
+                    type="button">
+                <span th:text="${category.name}"></span> 
+                <span class="fas fa-tag"></span>    
+            </button>
+            <div id="selected-categories"></div>
+            <br/>
+            <button class="btn btn-block btn-success">Search <span class="fas fa-search-plus"></span></button>
+            <br/>
+        </form>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="table-responsive mt-5 mp-5">
+    <table class="table" id="result">
+
+    </table>
+</div>
+<br/>
+
+<script>
+    $(function() {
+        var categories = [];
+
+        $(".category-button").on("click", function() {
+            var category_id = $(this).attr("data-category-id");
+            var index = categories.indexOf(category_id);
+            if (index > -1) {
+                categories.splice(index, 1);
+                $(this).removeClass("btn-warning").addClass("btn-dark");
+            }
+            else {
+                categories.push(category_id);
+                $(this).removeClass("btn-dark").addClass("btn-warning");
+            }
+        });
+
+        $("#search-form").on("submit", function(e) {
+            e.preventDefault();
+            var name = $("#name").val();
+            $.ajax({
+                url : "/search",
+                method : "POST",
+                data : {
+                    name : name,
+                    categories : categories
+                },
+                beforeSend : function(xhr, settings) {
+                    $("#result").html(null);
+                },
+                success : function(data, status, xhr) {
+                    for (var i = 0; i < data.length; i++) {
+                        var id = data[i].id;
+                        var name = data[i].name;
+                        var price = data[i].price;
+                        var description = data[i].description;
+                        var image = data[i].image;
+
+                        var title = "<h3 class='text-center mt-5'>" + name + "</h3>";
+                        var link = "<div class='text-center mt-5'><a href='/product/" + id + "'>View Details&gt;&gt;</a></div>";
+
+                        var element = document.createElement("tr");
+                        element.innerHTML = "<td><img src='/assets/" + image + "' class='center' style='width:500px;height:500px;'/></td>";
+                        element.innerHTML += "<td>" + title + link + "</td>";
+                        $("#result").prepend(element);
+                    }
+                },
+                error : function(xhr, status, err) {
+                    alert(status);
+                }
+            })
+        });
+    });
+</script>
+
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>

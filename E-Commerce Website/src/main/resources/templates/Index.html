@@ -1,0 +1,128 @@
+<br/>
+<h1 class="text-center">Welcome to Computers & Electronic devices</h1>
+<br/>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Gaming Laptops</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="laptop : ${gamingLaptops}" class="text-center">
+                <h3 th:text="${laptop.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + laptop.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + laptop.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Normal Laptops</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="laptop : ${normalLaptops}" class="text-center">
+                <h3 th:text="${laptop.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + laptop.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + laptop.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Desktops</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="desktop : ${desktops}" class="text-center">
+                <h3 th:text="${desktop.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + desktop.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + desktop.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Monitors</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="monitor : ${monitors}" class="text-center">
+                <h3 th:text="${monitor.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + monitor.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + monitor.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Tablets</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="tablet : ${tablets}" class="text-center">
+                <h3 th:text="${tablet.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + tablet.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + tablet.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <td colspan="3">
+                <h2 class="text-center">Computer Accessories</h2>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="accessory : ${accessories}" class="text-center">
+                <h3 th:text="${accessory.name}" class="text-center"></h3>
+                <br/><br/>
+                <img th:src="${'/assets/' + accessory.image}" class="center" style="width:300px; height:300px;"/>
+                <br/><br/>
+                <a th:href="${'/products/' + accessory.name}" class="text-center">View details &gt;&gt;</a>
+            </td> 
+        </tr>
+    </table>
+</div>
+
+
+<br/>
+
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
